@@ -30,6 +30,44 @@ namespace techchallenge_microservico_producao_tests
             Assert.NotNull(result);
         }
 
+
+        [Fact]
+        public void GetPedidoById()
+        {
+            //arrange
+            var pedido1 = GetPedidoObj();
+
+            var pedidoService = new Mock<IProducaoService>().Object;
+
+            Mock.Get(pedidoService)
+                .Setup(service => service.GetPedidoById(pedido1.Id))
+                .ReturnsAsync(pedido1);
+
+            //act
+            var result = pedidoService.GetPedidoById(pedido1.Id);
+
+            //assert
+            Assert.NotNull(result);
+        }
+
+        [Fact]
+        public void UpdateStatusPedido()
+        {
+            //arrange
+            var pedido1 = GetPedidoObj();
+
+            var pedidoService = new Mock<IProducaoService>().Object;
+
+            Mock.Get(pedidoService)
+                .Setup(service => service.UpdateStatusPedido(pedido1.Id, 3, pedido1));
+
+            //act
+            var result = pedidoService.UpdateStatusPedido(pedido1.Id, 3, pedido1);
+
+            //assert
+            Assert.NotNull(result);
+        }
+
         private Pedido GetPedidoObj()
         {
             var produtos = new List<Produto>();
@@ -46,7 +84,7 @@ namespace techchallenge_microservico_producao_tests
 
 
             var pedido = new Pedido();
-            pedido.Id = "";
+            pedido.Id = "91E4C318-1025-4273-A40B-7D8940F34575";
             pedido.IdCarrinho = pedido.IdCarrinho;
             pedido.Numero = 1;
             pedido.DataCriacao = DateTime.Now;
