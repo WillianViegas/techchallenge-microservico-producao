@@ -1,4 +1,5 @@
-﻿using MongoDB.Driver;
+﻿using Microsoft.EntityFrameworkCore;
+using MongoDB.Driver;
 using techchallenge_microservico_producao.DatabaseConfig;
 using techchallenge_microservico_producao.Models;
 using techchallenge_microservico_producao.Repositories.Interfaces;
@@ -8,18 +9,21 @@ namespace techchallenge_microservico_producao.Repositories
     public class ProducaoRepository : IProducaoRepository
     {
         private readonly IMongoCollection<Pedido> _collection;
+        private readonly EFDbconfig _efDbContext;
 
-        public ProducaoRepository(IDatabaseConfig databaseConfig)
+
+        public ProducaoRepository(EFDbconfig efDbContext)
         {
-            var connectionString = databaseConfig.ConnectionString.Replace("user", databaseConfig.User).Replace("password", databaseConfig.Password);
-            var client = new MongoClient(connectionString);
-            var database = client.GetDatabase(databaseConfig.DatabaseName);
-            _collection = database.GetCollection<Pedido>("Pedido");
+            _efDbContext = efDbContext;
         }
 
         public async Task<IList<Pedido>> GetAllPedidos()
         {
-            return await _collection.Find(_ => true).ToListAsync();
+            return  _efDbContext.Pedidos
+             .Include(pedido => pedido.Produtos) 
+             .Include(pedido => pedido.Usuario)  
+             .Include(pedido => pedido.Pagamento)  
+             .ToList();
         }
     }
 }

@@ -6,9 +6,7 @@ namespace techchallenge_microservico_producao.Models
 {
     public class Pedido
     {
-        [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)]
-        public string? Id { get; set; }
+        public string Id { get; set; }
         public int Numero { get; set; }
         public List<Produto> Produtos { get; set; }
         public Usuario Usuario { get; set; }
