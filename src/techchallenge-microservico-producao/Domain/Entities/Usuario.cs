@@ -1,7 +1,4 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
-using MongoDB.Bson;
-
-namespace techchallenge_microservico_producao.Models
+﻿namespace techchallenge_microservico_producao.Models
 {
     public class Usuario
     {
