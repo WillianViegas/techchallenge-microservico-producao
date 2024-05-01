@@ -1,6 +1,4 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
-using MongoDB.Bson;
-using Domain.Enum;
+﻿using Domain.Enum;
 
 namespace techchallenge_microservico_producao.Models
 {

@@ -1,4 +1,5 @@
 ﻿using Domain.Enum;
+using Microsoft.Extensions.Logging;
 using techchallenge_microservico_producao.Models;
 using techchallenge_microservico_producao.Repositories.Interfaces;
 using techchallenge_microservico_producao.Services.Interfaces;
