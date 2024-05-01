@@ -5,8 +5,6 @@ namespace techchallenge_microservico_producao.Models
 {
     public class Usuario
     {
-        [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
         public string Nome { get; set; }
         public string Email { get; set; }
