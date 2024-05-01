@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using Swashbuckle.AspNetCore.Annotations;
 using techchallenge_microservico_producao.DatabaseConfig;
 using techchallenge_microservico_producao.Models;
 using techchallenge_microservico_producao.Repositories;
@@ -23,6 +24,7 @@ builder.Services.AddTransient<IProducaoService, ProducaoService>();
 builder.Services.AddControllers();
 
 builder.Services.AddAWSLambdaHosting(LambdaEventSource.HttpApi);
+builder.Services.AddSwaggerGen(opts => opts.EnableAnnotations());
 
 var connectionString = builder.Configuration.GetConnectionString("MyAppCs");
 builder.Services.AddDbContext<EFDbconfig>(options =>
@@ -30,6 +32,8 @@ builder.Services.AddDbContext<EFDbconfig>(options =>
 
 var app = builder.Build();
 
+app.UseSwagger();
+app.UseSwaggerUI();
 app.UseCors("AllowAll");
 app.UsePathBase(builder.Configuration["App:Pathbase"]);
 app.UseHttpsRedirection();

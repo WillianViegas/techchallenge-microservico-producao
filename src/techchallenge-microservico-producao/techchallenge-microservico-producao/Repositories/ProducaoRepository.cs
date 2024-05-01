@@ -25,5 +25,18 @@ namespace techchallenge_microservico_producao.Repositories
              .Include(pedido => pedido.Pagamento)  
              .ToList();
         }
+
+        public async Task<Pedido> GetPedidoById(string id)
+        {
+            return _efDbContext.Pedidos
+           .Include(pedido => pedido.Produtos)
+           .Include(pedido => pedido.Usuario)
+           .Include(pedido => pedido.Pagamento).FirstOrDefault(x => x.Id == id);
+        }
+
+        public async Task UpdatePedido(string id, Pedido pedidoInput)
+        {
+            _efDbContext.SaveChanges();
+        }
     }
 }

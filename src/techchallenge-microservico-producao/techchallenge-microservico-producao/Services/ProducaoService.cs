@@ -34,5 +34,33 @@ namespace techchallenge_microservico_producao.Services
                 throw new Exception(ex.Message);
             }
         }
+
+        public async Task<Pedido> GetPedidoById(string id)
+        {
+            try
+            {
+                return await _pedidoRepository.GetPedidoById(id);
+            }
+            catch (Exception ex)
+            {
+                _log.LogError(ex.Message);
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task UpdateStatusPedido(string id, int status, Pedido pedido)
+        {
+            try
+            {
+                pedido.Status = (EPedidoStatus)status;
+                await _pedidoRepository.UpdatePedido(id, pedido);
+                _log.LogInformation($"Pedido atualizado id: {id}, status: {pedido.Status.ToString()}");
+            }
+            catch (Exception ex)
+            {
+                _log.LogError(ex.Message);
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }
