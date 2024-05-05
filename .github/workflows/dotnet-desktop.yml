@@ -22,10 +22,10 @@ jobs:
         dotnet-version: 8.0.200
 
     - name: Restore dependencies
-      run: dotnet restore ./techchallenge-microservico-producao.sln
+      run: dotnet restore ./src/techchallenge-microservico-producao/techchallenge-microservico-producao.sln
 
     - name: Build
-      run: dotnet build ./techchallenge-microservico-producao.sln --no-restore
+      run: dotnet build ./src/techchallenge-microservico-producao/techchallenge-microservico-producao.sln --no-restore
 
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v2
@@ -39,7 +39,7 @@ jobs:
 
     - name: Build and Push Docker images
       run: |
-        docker build -t ms-producao-img:latest -f techchallenge-microservico-producao/Dockerfile .
+        docker build -t ms-producao-img:latest -f ./src/techchallenge-microservico-producao/techchallenge-microservico-producao/Dockerfile .
         docker tag ms-producao-img:latest ${{ secrets.AWS_REGISTRY_URL }}:ms-producao-img
         docker push ${{ secrets.AWS_REGISTRY_URL }}:ms-producao-img
 
