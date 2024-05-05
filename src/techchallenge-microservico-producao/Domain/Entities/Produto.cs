@@ -10,6 +10,8 @@ namespace techchallenge_microservico_producao.Models
         public string? Nome { get; set; } = null;
         public string? Descricao { get; set; } = null;
         public decimal Preco { get; set; }
+
+        [ForeignKey("CategoriaId")]
         public string? CategoriaId { get; set; } = null;
     }
 }

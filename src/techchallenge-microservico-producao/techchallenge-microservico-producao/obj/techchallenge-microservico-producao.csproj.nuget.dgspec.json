@@ -107,6 +107,20 @@
       "frameworks": {
         "net7.0": {
           "targetAlias": "net7.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[7.0.18, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[7.0.18, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -184,6 +198,12 @@
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
               "version": "[7.0.18, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[7.0.18, )"
             }
           },
           "imports": [
@@ -235,6 +255,9 @@
               },
               "C:\\Users\\USER\\source\\repos\\techchallenge-microservico-producao\\src\\techchallenge-microservico-producao\\Domain\\Domain.csproj": {
                 "projectPath": "C:\\Users\\USER\\source\\repos\\techchallenge-microservico-producao\\src\\techchallenge-microservico-producao\\Domain\\Domain.csproj"
+              },
+              "C:\\Users\\USER\\source\\repos\\techchallenge-microservico-producao\\src\\techchallenge-microservico-producao\\Infra\\Infra.csproj": {
+                "projectPath": "C:\\Users\\USER\\source\\repos\\techchallenge-microservico-producao\\src\\techchallenge-microservico-producao\\Infra\\Infra.csproj"
               }
             }
           }
@@ -264,6 +287,12 @@
               "version": "[7.0.18, )"
             },
             "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[7.0.18, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
               "target": "Package",
               "version": "[7.0.18, )"
             },

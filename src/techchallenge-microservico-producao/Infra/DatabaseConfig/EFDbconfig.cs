@@ -1,10 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Data;
 using System.Reflection;
-using System;
 using techchallenge_microservico_producao.Models;
+using Domain.Entities;
 
-namespace techchallenge_microservico_producao.DatabaseConfig
+namespace Infra.DatabaseConfig
 {
     public class EFDbconfig : DbContext
     {
@@ -12,6 +11,7 @@ namespace techchallenge_microservico_producao.DatabaseConfig
         public DbSet<Pagamento> Pagamentos { get; set; }
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Produto> Produtos { get; set; }
+        public DbSet<Categoria> Categorias { get; set; }
 
         public EFDbconfig(DbContextOptions<EFDbconfig> options) : base(options)
         {

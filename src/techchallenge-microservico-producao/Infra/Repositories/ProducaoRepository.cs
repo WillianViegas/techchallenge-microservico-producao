@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using techchallenge_microservico_producao.DatabaseConfig;
+using Infra.DatabaseConfig;
 using techchallenge_microservico_producao.Models;
 using techchallenge_microservico_producao.Repositories.Interfaces;
 

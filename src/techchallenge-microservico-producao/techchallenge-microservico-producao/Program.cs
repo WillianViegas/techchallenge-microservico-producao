@@ -1,12 +1,12 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.Annotations;
-using techchallenge_microservico_producao.DatabaseConfig;
-using techchallenge_microservico_producao.Models;
+using Infra.DatabaseConfig;
 using techchallenge_microservico_producao.Repositories;
 using techchallenge_microservico_producao.Repositories.Interfaces;
 using techchallenge_microservico_producao.Services;
 using techchallenge_microservico_producao.Services.Interfaces;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,7 +28,7 @@ builder.Services.AddSwaggerGen(opts => opts.EnableAnnotations());
 
 var connectionString = builder.Configuration.GetConnectionString("MyAppCs");
 builder.Services.AddDbContext<EFDbconfig>(options =>
-    options.UseSqlServer(connectionString));
+   options.UseSqlServer(connectionString, b => b.MigrationsAssembly("techchallenge-microservico-producao")));
 
 var app = builder.Build();
 
