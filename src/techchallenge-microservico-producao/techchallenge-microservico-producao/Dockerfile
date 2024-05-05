@@ -8,8 +8,13 @@ EXPOSE 443
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
 COPY ["techchallenge-microservico-producao/techchallenge-microservico-producao.csproj", "techchallenge-microservico-producao/"]
+COPY ["Application/Application.csproj", "Application/"]
+COPY ["Domain/Domain.csproj", "Domain/"]
+COPY ["Infra/Infra.csproj", "Infra/"]
+
 RUN dotnet restore "techchallenge-microservico-producao/techchallenge-microservico-producao.csproj"
 COPY . .
+
 WORKDIR "/src/techchallenge-microservico-producao"
 RUN dotnet build "techchallenge-microservico-producao.csproj" -c Release -o /app/build
 
