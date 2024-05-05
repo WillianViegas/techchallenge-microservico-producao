@@ -39,7 +39,7 @@ jobs:
 
     - name: Build and Push Docker images
       run: |
-        docker build -t ms-producao-img:latest -f ./src/techchallenge-microservico-producao/techchallenge-microservico-producao/Dockerfile .
+        docker build -t ms-producao-img:latest -f techchallenge-microservico-producao/Dockerfile .
         docker tag ms-producao-img:latest ${{ secrets.AWS_REGISTRY_URL }}:ms-producao-img
         docker push ${{ secrets.AWS_REGISTRY_URL }}:ms-producao-img
 
