@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "nKOu/p5whTwJdvnIVNHRot4G6HxjfNNRt/5U433Xc5xjR/ElGUwaTQAT0twmjr4niibfA8uVk1tCFz5nyhdSxA==",
+  "dgSpecHash": "r8/nk11tGVc9Y+E0pjusgmbTjJGgJRblhULb67blJe4BZ+j+OofhNomXv+L7/xOdsbPO/0vFc1e40999+mHmcg==",
   "success": true,
   "projectFilePath": "C:\\Users\\USER\\source\\repos\\techchallenge-microservico-producao\\src\\techchallenge-microservico-producao\\techchallenge-microservico-producao\\techchallenge-microservico-producao.csproj",
   "expectedPackageFiles": [
@@ -28,6 +28,7 @@
     "C:\\Users\\USER\\.nuget\\packages\\microsoft.entityframeworkcore.design\\7.0.18\\microsoft.entityframeworkcore.design.7.0.18.nupkg.sha512",
     "C:\\Users\\USER\\.nuget\\packages\\microsoft.entityframeworkcore.relational\\7.0.18\\microsoft.entityframeworkcore.relational.7.0.18.nupkg.sha512",
     "C:\\Users\\USER\\.nuget\\packages\\microsoft.entityframeworkcore.sqlserver\\7.0.18\\microsoft.entityframeworkcore.sqlserver.7.0.18.nupkg.sha512",
+    "C:\\Users\\USER\\.nuget\\packages\\microsoft.entityframeworkcore.tools\\7.0.18\\microsoft.entityframeworkcore.tools.7.0.18.nupkg.sha512",
     "C:\\Users\\USER\\.nuget\\packages\\microsoft.extensions.apidescription.server\\6.0.5\\microsoft.extensions.apidescription.server.6.0.5.nupkg.sha512",
     "C:\\Users\\USER\\.nuget\\packages\\microsoft.extensions.caching.abstractions\\7.0.0\\microsoft.extensions.caching.abstractions.7.0.0.nupkg.sha512",
     "C:\\Users\\USER\\.nuget\\packages\\microsoft.extensions.caching.memory\\7.0.0\\microsoft.extensions.caching.memory.7.0.0.nupkg.sha512",

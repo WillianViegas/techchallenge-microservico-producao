@@ -12,6 +12,19 @@ namespace techchallenge_microservico_producao.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Categorias",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Nome = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Ativa = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Categorias", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Pagamentos",
                 columns: table => new
                 {
@@ -75,6 +88,7 @@ namespace techchallenge_microservico_producao.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    PedidoId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Nome = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Descricao = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Preco = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
@@ -84,8 +98,8 @@ namespace techchallenge_microservico_producao.Migrations
                 {
                     table.PrimaryKey("PK_Produtos", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Produtos_Pedidos_Id",
-                        column: x => x.Id,
+                        name: "FK_Produtos_Pedidos_PedidoId",
+                        column: x => x.PedidoId,
                         principalTable: "Pedidos",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -100,11 +114,19 @@ namespace techchallenge_microservico_producao.Migrations
                 name: "IX_Pedidos_UsuarioId",
                 table: "Pedidos",
                 column: "UsuarioId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Produtos_PedidoId",
+                table: "Produtos",
+                column: "PedidoId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Categorias");
+
             migrationBuilder.DropTable(
                 name: "Produtos");
 
