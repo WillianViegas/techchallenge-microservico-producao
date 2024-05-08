@@ -1,11 +1,13 @@
 using Domain.Enum;
+using Microsoft.Extensions.Logging;
 using Moq;
+using techchallenge_microservico_producao.Controllers;
 using techchallenge_microservico_producao.Models;
 using techchallenge_microservico_producao.Services.Interfaces;
 
-namespace techchallenge_microservico_producao_tests
+namespace techchallenge_microservico_producao_tests.Controllers
 {
-    public class ProducaoTests
+    public class ProducaoRepositoryTests
     {
         [Fact]
         public void GetAllPedidos()
@@ -23,32 +25,18 @@ namespace techchallenge_microservico_producao_tests
                 .Setup(service => service.GetAllPedidos())
                 .ReturnsAsync(listPedidos);
 
+            var mock = new Mock<ILogger<ProducaoController>>();
+            ILogger<ProducaoController> logger = mock.Object;
+
+            var controller = new ProducaoController(logger, pedidoService);
+
             //act
-            var result = pedidoService.GetAllPedidos();
+            var result = controller.GetAllPedidos();
 
             //assert
             Assert.NotNull(result);
         }
 
-
-        [Fact]
-        public void GetPedidoById()
-        {
-            //arrange
-            var pedido1 = GetPedidoObj();
-
-            var pedidoService = new Mock<IProducaoService>().Object;
-
-            Mock.Get(pedidoService)
-                .Setup(service => service.GetPedidoById(pedido1.Id))
-                .ReturnsAsync(pedido1);
-
-            //act
-            var result = pedidoService.GetPedidoById(pedido1.Id);
-
-            //assert
-            Assert.NotNull(result);
-        }
 
         [Fact]
         public void UpdateStatusPedido()
@@ -56,13 +44,24 @@ namespace techchallenge_microservico_producao_tests
             //arrange
             var pedido1 = GetPedidoObj();
 
-            var pedidoService = new Mock<IProducaoService>().Object;
+            var producaoService = new Mock<IProducaoService>().Object;
 
-            Mock.Get(pedidoService)
+
+            Mock.Get(producaoService)
+                .Setup(service => service.GetPedidoById(pedido1.Id))
+                .ReturnsAsync(pedido1);
+
+            Mock.Get(producaoService)
                 .Setup(service => service.UpdateStatusPedido(pedido1.Id, 3, pedido1));
 
+            var mock = new Mock<ILogger<ProducaoController>>();
+            ILogger<ProducaoController> logger = mock.Object;
+
+            var controller = new ProducaoController(logger, producaoService);
+
+
             //act
-            var result = pedidoService.UpdateStatusPedido(pedido1.Id, 3, pedido1);
+            var result = controller.UpdateStatusPedido(pedido1.Id, 3);
 
             //assert
             Assert.NotNull(result);
