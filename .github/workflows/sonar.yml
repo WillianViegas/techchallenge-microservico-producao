@@ -46,4 +46,5 @@ jobs:
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"WillianViegas_techchallenge-microservico-producao" /o:"willianviegas" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
           dotnet restore ./src/techchallenge-microservico-producao/techchallenge-microservico-producao.sln
           dotnet build ./src/techchallenge-microservico-producao/techchallenge-microservico-producao.sln --no-restore
+          dotnet test ./src/techchallenge-microservico-producao/techchallenge-microservico-producao.sln --collect:"XPlat Code Coverage" --results-directory:TestResults --logger:"trx;LogFileName=test_results.trx"          
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
