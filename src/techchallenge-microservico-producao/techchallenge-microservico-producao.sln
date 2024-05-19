@@ -23,7 +23,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Driver", "Driver", "{CF4672
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infra", "Infra\Infra.csproj", "{8DEAD1C3-9FE5-4F0D-8B34-33185A621D97}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpecFlowBDDTests", "SpecFlowBDDTests\SpecFlowBDDTests.csproj", "{1466010C-8F70-4A3B-8168-CA44D34D5755}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpecFlowBDDTests", "SpecFlowBDDTests\SpecFlowBDDTests.csproj", "{1466010C-8F70-4A3B-8168-CA44D34D5755}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{478D2440-A44D-4862-AD3F-910B173332FE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,6 +57,10 @@ Global
 		{1466010C-8F70-4A3B-8168-CA44D34D5755}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1466010C-8F70-4A3B-8168-CA44D34D5755}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1466010C-8F70-4A3B-8168-CA44D34D5755}.Release|Any CPU.Build.0 = Release|Any CPU
+		{478D2440-A44D-4862-AD3F-910B173332FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{478D2440-A44D-4862-AD3F-910B173332FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{478D2440-A44D-4862-AD3F-910B173332FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{478D2440-A44D-4862-AD3F-910B173332FE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

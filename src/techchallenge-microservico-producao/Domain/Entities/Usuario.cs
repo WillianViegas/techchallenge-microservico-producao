@@ -8,5 +8,6 @@
         public string CPF { get; set; }
         public string? Tipo { get; set; } = null;
         public string? Senha { get; set; } = null;
+        public string? IdUsuarioOrigem { get; set; } = null;
     }
 }

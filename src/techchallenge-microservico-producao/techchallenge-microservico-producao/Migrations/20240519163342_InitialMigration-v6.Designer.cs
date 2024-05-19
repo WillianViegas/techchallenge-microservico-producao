@@ -4,6 +4,7 @@ using Infra.DatabaseConfig;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace techchallenge_microservico_producao.Migrations
 {
     [DbContext(typeof(EFDbconfig))]
-    partial class EFDbconfigModelSnapshot : ModelSnapshot
+    [Migration("20240519163342_InitialMigration-v6")]
+    partial class InitialMigrationv6
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -22,12 +25,32 @@ namespace techchallenge_microservico_producao.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("Domain.Entities.Categoria", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool>("Ativa")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Nome")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Categorias");
+                });
+
             modelBuilder.Entity("techchallenge_microservico_producao.Models.Pagamento", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Bandeira")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("IdPagamentoOrigem")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("OrdemDePagamento")

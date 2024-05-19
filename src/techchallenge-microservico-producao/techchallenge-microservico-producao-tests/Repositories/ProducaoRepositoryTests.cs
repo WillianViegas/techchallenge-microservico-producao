@@ -41,11 +41,11 @@ namespace techchallenge_microservico_producao_tests.Repositories
             var producaoRepository = new Mock<IProducaoRepository>().Object;
 
             Mock.Get(producaoRepository)
-                .Setup(repo => repo.GetPedidoById(pedido1.Id))
+                .Setup(repo => repo.GetPedidoByIdOrigem(pedido1.IdPedidoOrigem))
                 .ReturnsAsync(pedido1);
 
             //act
-            var result = producaoRepository.GetPedidoById(pedido1.Id);
+            var result = producaoRepository.GetPedidoByIdOrigem(pedido1.IdPedidoOrigem);
 
             //assert
             Assert.NotNull(result);

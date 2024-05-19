@@ -13,5 +13,6 @@ namespace techchallenge_microservico_producao.Models
 
         [ForeignKey("CategoriaId")]
         public string? CategoriaId { get; set; } = null;
+        public string? ProdutoIdOrigem { get; set; } = null;
     }
 }
