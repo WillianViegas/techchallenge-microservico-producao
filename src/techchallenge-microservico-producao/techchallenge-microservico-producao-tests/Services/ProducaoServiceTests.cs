@@ -40,11 +40,11 @@ namespace techchallenge_microservico_producao_tests.Services
             var pedidoService = new Mock<IProducaoService>().Object;
 
             Mock.Get(pedidoService)
-                .Setup(service => service.GetPedidoById(pedido1.Id))
+                .Setup(service => service.GetPedidoByIdOrigem(pedido1.IdPedidoOrigem))
                 .ReturnsAsync(pedido1);
 
             //act
-            var result = pedidoService.GetPedidoById(pedido1.Id);
+            var result = pedidoService.GetPedidoByIdOrigem(pedido1.IdPedidoOrigem);
 
             //assert
             Assert.NotNull(result);
@@ -90,6 +90,7 @@ namespace techchallenge_microservico_producao_tests.Services
             pedido.DataCriacao = DateTime.Now;
             pedido.Produtos = produtos;
             pedido.Status = EPedidoStatus.Novo;
+            pedido.IdPedidoOrigem = Guid.NewGuid().ToString();
 
             return pedido;
         }

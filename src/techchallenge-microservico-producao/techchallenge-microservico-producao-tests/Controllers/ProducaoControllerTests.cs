@@ -48,11 +48,11 @@ namespace techchallenge_microservico_producao_tests.Controllers
 
 
             Mock.Get(producaoService)
-                .Setup(service => service.GetPedidoById(pedido1.Id))
+                .Setup(service => service.GetPedidoByIdOrigem(pedido1.IdPedidoOrigem))
                 .ReturnsAsync(pedido1);
 
             Mock.Get(producaoService)
-                .Setup(service => service.UpdateStatusPedido(pedido1.Id, 3, pedido1));
+                .Setup(service => service.UpdateStatusPedido(pedido1.IdPedidoOrigem, 3, pedido1));
 
             var mock = new Mock<ILogger<ProducaoController>>();
             ILogger<ProducaoController> logger = mock.Object;
@@ -89,6 +89,7 @@ namespace techchallenge_microservico_producao_tests.Controllers
             pedido.DataCriacao = DateTime.Now;
             pedido.Produtos = produtos;
             pedido.Status = EPedidoStatus.Novo;
+            pedido.IdPedidoOrigem = Guid.NewGuid().ToString();
 
             return pedido;
         }

@@ -66,28 +66,51 @@ namespace techchallenge_microservico_producao.Controllers
         Summary = "Atualizar status pedido",
         Description = "Atualiza o status do pedido"
     )]
-        public async Task<IResult> UpdateStatusPedido(string id, int status)
+        public async Task<IResult> UpdateStatusPedido(string idPedidoOrigem, int status)
         {
             try
             {
-                if (string.IsNullOrEmpty(id))
+                if (string.IsNullOrEmpty(idPedidoOrigem))
                     return TypedResults.BadRequest("Erro: Id inválido.");
 
                 if (status < 3 || status > 5)
                     return TypedResults.BadRequest("Erro: Status inválido para atualização do pedido.");
 
-                var pedido = await _producaoService.GetPedidoById(id);
+                var pedido = await _producaoService.GetPedidoByIdOrigem(idPedidoOrigem);
                 if (pedido is null || string.IsNullOrEmpty(pedido.Id)) return TypedResults.NotFound("Pedido não encontrado.");
 
                 if ((int)pedido.Status >= status)
                     return TypedResults.BadRequest("Erro: O Status atual do pedido é igual ou superior ao solicitado para atualização.");
 
-                await _producaoService.UpdateStatusPedido(id, status, pedido);
+                await _producaoService.UpdateStatusPedido(idPedidoOrigem, status, pedido);
                 return TypedResults.NoContent();
             }
             catch (Exception ex)
             {
-                var erro = $"Erro ao atualizar o status do pedido. Id: {id}";
+                var erro = $"Erro ao atualizar o status do pedido. Id: {idPedidoOrigem}";
+                _logger.LogError(erro, ex);
+                return TypedResults.Problem(erro);
+            }
+        }
+
+        [HttpGet("/registrarPedidos")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
+        [SwaggerOperation(
+        Summary = "Finalizar pedido",
+        Description = "Finaliza o pedido gerando QRcode para pagamento")]
+        public async Task<IResult> RegistrarPedidos()
+        {
+            try
+            {
+                await _producaoService.RegistrarPedidos();
+                return TypedResults.Ok($"Pedidos registrados");
+            }
+            catch (Exception ex)
+            {
+                var erro = $"Erro ao registrar pedidos";
                 _logger.LogError(erro, ex);
                 return TypedResults.Problem(erro);
             }

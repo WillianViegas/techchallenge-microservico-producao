@@ -4,6 +4,7 @@ using Infra.DatabaseConfig;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace techchallenge_microservico_producao.Migrations
 {
     [DbContext(typeof(EFDbconfig))]
-    partial class EFDbconfigModelSnapshot : ModelSnapshot
+    [Migration("20240519165920_InitialMigration-v8")]
+    partial class InitialMigrationv8
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

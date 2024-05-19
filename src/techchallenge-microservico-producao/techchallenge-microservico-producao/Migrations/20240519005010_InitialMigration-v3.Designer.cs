@@ -4,6 +4,7 @@ using Infra.DatabaseConfig;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace techchallenge_microservico_producao.Migrations
 {
     [DbContext(typeof(EFDbconfig))]
-    partial class EFDbconfigModelSnapshot : ModelSnapshot
+    [Migration("20240519005010_InitialMigration-v3")]
+    partial class InitialMigrationv3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,6 +24,22 @@ namespace techchallenge_microservico_producao.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("Domain.Entities.Categoria", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool>("Ativa")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Nome")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Categorias");
+                });
 
             modelBuilder.Entity("techchallenge_microservico_producao.Models.Pagamento", b =>
                 {
@@ -104,9 +123,6 @@ namespace techchallenge_microservico_producao.Migrations
                     b.Property<decimal>("Preco")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("ProdutoIdOrigem")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("PedidoId");
@@ -125,9 +141,6 @@ namespace techchallenge_microservico_producao.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("IdUsuarioOrigem")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Nome")

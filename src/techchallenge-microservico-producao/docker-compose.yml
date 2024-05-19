@@ -1,0 +1,59 @@
+version: '3.4'
+
+services:
+  techchallenge-microservico-producao:
+    image: ${DOCKER_REGISTRY-}techchallengemicroservicoproducao
+    build:
+      context: .
+      dockerfile: techchallenge-microservico-producao/Dockerfile
+    ports:
+      - "7011:80"
+      - "7012:443"
+    networks:
+      - prod-network
+    environment:
+      DatabaseConfig__ConnectionString: 'Server=127.0.0.1,1433;Database=MyApp;User Id=SA;Password=Teste1234;'
+      DatabaseConfig__DatabaseName: 'MyApp'
+      DatabaseConfig__User: 'SA'
+      ConnectionStrings__MyAppCs: 'Server=sql-server,1433;Database=MyApp;User Id=SA;Password=Teste1234;TrustServerCertificate=true'
+      QueueUrl: ''
+      LocalStack__Config__LocalStackHost: 'localstack'
+      DatabaseConfig__Password: 'Teste1234'
+      AWS_ACCESS_KEY_ID: ''
+      AWS_SECRET_ACCESS_KEY: ''
+      AWS_REGION: 'us-east-1'
+      MY_SECRET: ''
+    depends_on:
+      - sql-server
+      - localstack
+
+  localstack:
+    container_name: "${LOCALSTACK_DOCKER_NAME-localstack_ms_producao}"
+    image: localstack/localstack:latest
+    ports:
+      - "4510-4559:4510-4559"
+      - "4566:4566"
+    networks:
+      - prod-network
+    environment:
+      AWS_DEFAULT_REGION: us-east-1
+      SERVICES: sqs, s3
+
+  sql-server:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: sql-server
+    ports:
+      - "1433:1433"
+    networks:
+      - prod-network
+    environment:
+      SA_PASSWORD: "Teste1234"
+      ACCEPT_EULA: "Y"
+    volumes:
+      - c:\dados\volumes\mssql:/var/opt/mssql3
+    expose:
+      - 1433
+
+networks:
+  prod-network:
+    driver: bridge

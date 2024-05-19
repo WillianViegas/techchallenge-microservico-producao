@@ -24,17 +24,24 @@ namespace techchallenge_microservico_producao.Repositories
              .ToList();
         }
 
-        public async Task<Pedido> GetPedidoById(string id)
+        public async Task<Pedido> GetPedidoByIdOrigem(string id)
         {
             return _efDbContext.Pedidos
            .Include(pedido => pedido.Produtos)
            .Include(pedido => pedido.Usuario)
-           .Include(pedido => pedido.Pagamento).FirstOrDefault(x => x.Id == id);
+           .Include(pedido => pedido.Pagamento).FirstOrDefault(x => x.IdPedidoOrigem == id);
         }
 
         public async Task UpdatePedido(string id, Pedido pedidoInput)
         {
             _efDbContext.SaveChanges();
+        }
+
+        public async Task<Pedido> CreatePedido(Pedido pedido)
+        {
+            _efDbContext.Pedidos.Add(pedido);
+            _efDbContext.SaveChanges();
+            return pedido;
         }
     }
 }
