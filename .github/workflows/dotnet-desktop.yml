@@ -42,11 +42,12 @@ jobs:
 
     - name: Build and Push Docker images
       run: |
-            docker tag ms-pedido-img:latest ${{ secrets.AWS_REGISTRY_URL }}:ms-pedido-img
-            docker push ${{ secrets.AWS_REGISTRY_URL }}:ms-pedido-img
-      #  cd src
-      #  cd techchallenge-microservico-producao
-      #  docker build -t ms-producao-img:latest -f  techchallenge-microservico-producao/Dockerfile .
+          cd src
+          cd techchallenge-microservico-producao
+          docker build -t ms-producao-img:latest -f  techchallenge-microservico-producao/Dockerfile .
+          docker tag ms-pedido-img:latest ${{ secrets.AWS_REGISTRY_URL }}:ms-pedido-img
+          docker push ${{ secrets.AWS_REGISTRY_URL }}:ms-pedido-img
+    
       #  docker tag ms-producao-img:latest ${{ secrets.DOCKER_HUB_URL }}:ms-producao-img
       #  docker push ${{ secrets.DOCKER_HUB_URL }}:ms-producao-img
 
