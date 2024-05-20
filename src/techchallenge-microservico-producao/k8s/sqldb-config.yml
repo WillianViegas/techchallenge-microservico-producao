@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sql-ms-producao
+  labels:
+    app: sql-ms-producao
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sql-ms-producao
+  template:
+    metadata:
+      labels:
+        app: sql-ms-producao
+    spec:
+      containers:
+      - name: sql-ms-producao
+        image:  mcr.microsoft.com/mssql/server:2019-latest
+        env:
+          - name: ACCEPT_EULA
+            value: "Y"
+          - name: MSSQL_SA_PASSWORD
+            value: "Teste1234"
+        ports:
+          - containerPort: 1433
+            protocol: TCP
+        resources:
+          limits:
+            memory: "1024Mi"
+            cpu: "500m"
+        readinessProbe:
+            tcpSocket:
+              port: 1433
+            initialDelaySeconds: 15
+            periodSeconds: 10
+        livenessProbe:
+            tcpSocket:
+              port: 1433
+            initialDelaySeconds: 15
+            periodSeconds: 10
+        envFrom:
+        - configMapRef:
+            name: my-config-producao
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sql-ms-producao
+spec:
+  selector:
+    app: sql-ms-producao
+  ports:
+    - protocol: TCP
+      port: 1433
+      targetPort: 1433
