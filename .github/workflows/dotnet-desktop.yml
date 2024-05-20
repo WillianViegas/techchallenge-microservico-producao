@@ -78,7 +78,7 @@ jobs:
       - name: Deploy to EKS
         run: |
             cd src
-            cd techchallenge-microservico-pedido
+            cd techchallenge-microservico-producao
             aws eks --region ${{ secrets.AWS_REGION }} update-kubeconfig --name ${{ secrets.EKS_CLUSTER_NAME }}
             kubectl apply -f ./k8s/
             
