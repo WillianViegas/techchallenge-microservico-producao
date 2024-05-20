@@ -19,6 +19,14 @@ namespace Infra.DatabaseConfig
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Pedido>()
+            .Property(p => p.Total)
+            .HasColumnType("decimal(18,2)");
+
+            modelBuilder.Entity<Produto>()
+            .Property(p => p.Preco)
+            .HasColumnType("decimal(18,2)");
+
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
     }
