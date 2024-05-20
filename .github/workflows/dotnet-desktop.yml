@@ -42,11 +42,13 @@ jobs:
 
     - name: Build and Push Docker images
       run: |
-        cd src
-        cd techchallenge-microservico-producao
-        docker build -t ms-producao-img:latest -f  techchallenge-microservico-producao/Dockerfile .
-        docker tag ms-producao-img:latest ${{ secrets.DOCKER_HUB_URL }}:ms-producao-img
-        docker push ${{ secrets.DOCKER_HUB_URL }}:ms-producao-img
+            docker tag ms-pedido-img:latest ${{ secrets.AWS_REGISTRY_URL }}:ms-pedido-img
+            docker push ${{ secrets.AWS_REGISTRY_URL }}:ms-pedido-img
+      #  cd src
+      #  cd techchallenge-microservico-producao
+      #  docker build -t ms-producao-img:latest -f  techchallenge-microservico-producao/Dockerfile .
+      #  docker tag ms-producao-img:latest ${{ secrets.DOCKER_HUB_URL }}:ms-producao-img
+      #  docker push ${{ secrets.DOCKER_HUB_URL }}:ms-producao-img
 
   override-configmap-and-deploy-eks:
     runs-on: ubuntu-latest
@@ -74,8 +76,9 @@ jobs:
         
       - name: Deploy to EKS
         run: |
+            cd src
+            cd techchallenge-microservico-pedido
             aws eks --region ${{ secrets.AWS_REGION }} update-kubeconfig --name ${{ secrets.EKS_CLUSTER_NAME }}
             kubectl apply -f ./k8s/
-            docker tag ms-pedido-img:latest ${{ secrets.AWS_REGISTRY_URL }}:ms-pedido-img
-            docker push ${{ secrets.AWS_REGISTRY_URL }}:ms-pedido-img
+            
 
