@@ -15,7 +15,7 @@ Estrutura
  - Testes unitários e com BDD utilizando a extensão SpecFlow
  - Cobertura de código = SonarCloud
  - Pipeline = Github Actions
- - Deploy = Terraform
+ - Deploy = Terraform 
 
 
 
