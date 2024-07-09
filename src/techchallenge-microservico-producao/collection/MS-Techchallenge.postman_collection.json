@@ -1,0 +1,270 @@
+{
+	"info": {
+		"_postman_id": "d2672d3b-4a39-4cd6-8ec9-0fb81cdcf381",
+		"name": "MS-Techchallenge",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Pedido",
+			"item": [
+				{
+					"name": "CreatePedido",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Produtos\": [\r\n        {\r\n            \"id\": \"65a315a4db1f522d916d935a\",\r\n            \"nome\": \"Hamburguer especial da casa\",\r\n            \"descricao\": \"Hamburguer artesanal da casa com maionese caseira e molho secreto\",\r\n            \"preco\": 35.99,\r\n            \"categoriaId\": \"65a315a4db1f522d916d9357\"\r\n        }\r\n    ],\r\n    \"Usuario\": {\r\n        \"id\": \"65a315a4db1f522d916d9355\",\r\n        \"nome\": \"Marcos\",\r\n        \"email\": \"marcao@gmail.com\",\r\n        \"cpf\": \"65139370000\"\r\n    },\r\n    \"Total\": 35.99,\r\n    \"Pagamento\":{}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://af004a7add9ce456e87c6b63d39a710c-28869bef61b88a48.elb.us-east-1.amazonaws.com/CreatePedido",
+							"protocol": "http",
+							"host": [
+								"af004a7add9ce456e87c6b63d39a710c-28869bef61b88a48",
+								"elb",
+								"us-east-1",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"CreatePedido"
+							],
+							"query": [
+								{
+									"key": "Id",
+									"value": "6648cf15390d1ba4f7223d95",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Teste",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://af004a7add9ce456e87c6b63d39a710c-28869bef61b88a48.elb.us-east-1.amazonaws.com/teste",
+							"protocol": "http",
+							"host": [
+								"af004a7add9ce456e87c6b63d39a710c-28869bef61b88a48",
+								"elb",
+								"us-east-1",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"teste"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "FromCarrinho",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:54360/fromCarrinho?IdCarrinho=65a315f1db1f522d916d9360",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "54360",
+							"path": [
+								"fromCarrinho"
+							],
+							"query": [
+								{
+									"key": "IdCarrinho",
+									"value": "65a315f1db1f522d916d9360"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Pagamento",
+			"item": [
+				{
+					"name": "FinalizarPedido",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:7010/FinalizarPedido?Id=664aab5d612e5405aa9a02fe",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7010",
+							"path": [
+								"FinalizarPedido"
+							],
+							"query": [
+								{
+									"key": "Id",
+									"value": "664aab5d612e5405aa9a02fe"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Teste",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://af004a7add9ce456e87c6b63d39a710c-28869bef61b88a48.elb.us-east-1.amazonaws.com/teste",
+							"protocol": "http",
+							"host": [
+								"af004a7add9ce456e87c6b63d39a710c-28869bef61b88a48",
+								"elb",
+								"us-east-1",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"teste"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RegistrarPedidos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://a462e095fd2b44c8db65146bdc93f5df-00718274dad0f17b.elb.us-east-1.amazonaws.com/registrarPedidos",
+							"protocol": "http",
+							"host": [
+								"a462e095fd2b44c8db65146bdc93f5df-00718274dad0f17b",
+								"elb",
+								"us-east-1",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"registrarPedidos"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Producao",
+			"item": [
+				{
+					"name": "GetAllPedidos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:7012/getAllPedidos",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7012",
+							"path": [
+								"getAllPedidos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateStatusPedido",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:7012/updateStatusPedido?idPedidoOrigem=664a1f23aa6a09bc2f4e1c53&status=4",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7012",
+							"path": [
+								"updateStatusPedido"
+							],
+							"query": [
+								{
+									"key": "idPedidoOrigem",
+									"value": "664a1f23aa6a09bc2f4e1c53"
+								},
+								{
+									"key": "status",
+									"value": "4"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Teste",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://af004a7add9ce456e87c6b63d39a710c-28869bef61b88a48.elb.us-east-1.amazonaws.com/teste",
+							"protocol": "http",
+							"host": [
+								"af004a7add9ce456e87c6b63d39a710c-28869bef61b88a48",
+								"elb",
+								"us-east-1",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"teste"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RegistrarPedidos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://a462e095fd2b44c8db65146bdc93f5df-00718274dad0f17b.elb.us-east-1.amazonaws.com/registrarPedidos",
+							"protocol": "http",
+							"host": [
+								"a462e095fd2b44c8db65146bdc93f5df-00718274dad0f17b",
+								"elb",
+								"us-east-1",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"registrarPedidos"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

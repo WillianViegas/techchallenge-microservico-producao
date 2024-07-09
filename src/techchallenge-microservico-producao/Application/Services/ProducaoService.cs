@@ -2,13 +2,15 @@
 using Amazon.SQS;
 using Amazon.SQS.ExtendedClient;
 using Amazon.SQS.Model;
+using Azure;
 using Domain.Enum;
+using Infra.DatabaseConfig;
 using Infra.SQS;
-using LocalStack.Client;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System.Net;
-using techchallenge_microservico_pedido.Models;
 using techchallenge_microservico_producao.Models;
 using techchallenge_microservico_producao.Repositories.Interfaces;
 using techchallenge_microservico_producao.Services.Interfaces;
@@ -28,14 +30,18 @@ namespace techchallenge_microservico_producao.Services
         private readonly string _bucketName;
         private IAmazonSQS _amazonSQS;
         private IAmazonS3 _amazonS3;
+        private readonly ISQSConfiguration _sQSConfiguration;
+        private readonly string _sqlConnectionString;
+        private readonly IDbContextFactory<EFDbconfig> _myDbContextFactory;
 
-        public ProducaoService(IProducaoRepository producaoRepository,  ILogger<Pedido> log, IConfiguration config, IAmazonS3 s3, IAmazonSQS sqs)
+        public ProducaoService(IProducaoRepository producaoRepository, ILogger<Pedido> log, IConfiguration config, IAmazonS3 s3, IAmazonSQS sqs, ISQSConfiguration sqsConfiguration, IDbContextFactory<EFDbconfig> myDbContextFactory)
         {
             var criarFila = config.GetSection("SQSConfig").GetSection("CreateTestQueue").Value;
             var enviarMensagem = config.GetSection("SQSConfig").GetSection("SendTestMessage").Value;
             var useLocalStack = config.GetSection("SQSConfig").GetSection("useLocalStack").Value;
 
-
+            _myDbContextFactory = myDbContextFactory;
+            _sQSConfiguration = sqsConfiguration;
             _log = log;
             _pedidoRepository = producaoRepository;
             _useLocalStack = Convert.ToBoolean(useLocalStack);
@@ -46,6 +52,7 @@ namespace techchallenge_microservico_producao.Services
             _bucketName = config.GetSection("SQSExtendedClient").GetSection("S3Bucket").Value;
             _amazonS3 = s3;
             _amazonSQS = sqs;
+            _sqlConnectionString = config.GetSection("ConnectionStrings").GetSection("MyAppCs").Value;
             _sqs = new AmazonSQSClient(Amazon.RegionEndpoint.GetBySystemName(
                     string.IsNullOrEmpty(Environment.GetEnvironmentVariable("MY_SECRET")) || Environment.GetEnvironmentVariable("MY_SECRET").Equals("{MY_SECRET}")
                     ? "us-east-1"
@@ -113,6 +120,7 @@ namespace techchallenge_microservico_producao.Services
                 _log.LogError(ex.Message);
                 throw new Exception(ex.Message);
             }
+
         }
 
         public async Task UpdateStatusPedido(string id, int status, Pedido pedido)
@@ -134,47 +142,21 @@ namespace techchallenge_microservico_producao.Services
         {
             if (!_useLocalStack)
             {
-                var sqsConfiguration = new SQSConfiguration();
-                _sqs = await sqsConfiguration.ConfigurarSQS();
+                _sqs = await _sQSConfiguration.ConfigurarSQS();
 
-                await sqsConfiguration.EnviarParaSQS(messageJson, _sqs);
+                await _sQSConfiguration.EnviarParaSQS(messageJson, _sqs);
             }
             else
             {
                 var configSQS = new AmazonSQSExtendedClient(_amazonSQS, new ExtendedClientConfiguration().WithLargePayloadSupportEnabled(_amazonS3, _bucketName));
 
                 if (_criarFila)
-                    await CreateMessageInQueueWithStatusASyncLocalStack(configSQS);
+                    await _sQSConfiguration.CreateMessageInQueueWithStatusASyncLocalStack(configSQS, _queueName);
 
                 if (_enviarMensagem)
-                    await SendTestMessageAsyncLocalStack(_queueUrl, configSQS);
+                    await _sQSConfiguration.SendTestMessageAsyncLocalStack(_queueUrl, configSQS);
 
                 await configSQS.SendMessageAsync(_queueUrl, messageJson);
-            }
-        }
-
-        async Task SendTestMessageAsyncLocalStack(string queue, AmazonSQSExtendedClient sqs)
-        {
-            var messageBody = new MessageBody();
-            messageBody.IdTransacao = Guid.NewGuid().ToString();
-            messageBody.idPedido = "65a315fadb1f522d916d9361";
-            messageBody.Status = "OK";
-            messageBody.DataTransacao = DateTime.Now;
-
-            var jsonObj = Newtonsoft.Json.JsonConvert.SerializeObject(messageBody);
-
-            await sqs.SendMessageAsync(queue, jsonObj);
-        }
-
-        async Task CreateMessageInQueueWithStatusASyncLocalStack(AmazonSQSExtendedClient sqs)
-        {
-            var responseQueue = await sqs.CreateQueueAsync(new CreateQueueRequest(_queueName));
-
-            if (responseQueue.HttpStatusCode != HttpStatusCode.OK)
-            {
-                var erro = $"Failed to CreateQueue for queue {_queueName}. Response: {responseQueue.HttpStatusCode}";
-                //log.LogError(erro);
-                throw new AmazonSQSException(erro);
             }
         }
 
@@ -182,6 +164,8 @@ namespace techchallenge_microservico_producao.Services
         {
             try
             {
+                var configSQS = new AmazonSQSExtendedClient(_amazonSQS, new ExtendedClientConfiguration().WithLargePayloadSupportEnabled(_amazonS3, _bucketName));
+                await _sQSConfiguration.SendTestMessageAsyncLocalStack(_queueUrl, configSQS);
                 _log.LogDebug("Reading queue...");
 
                 var response = await _amazonSQS.ReceiveMessageAsync(new ReceiveMessageRequest
@@ -201,59 +185,31 @@ namespace techchallenge_microservico_producao.Services
 
                 foreach (var message in response.Messages)
                 {
+                    try
+                    {
+                        var obj = _sQSConfiguration.TratarMessage(message.Body);
 
-                    var obj = TratarMessage(message.Body);
+                        if (obj == null)
+                            continue;
 
-                    if (obj == null)
-                        continue;
+                        //chamar confirmar pedido
+                        var pedido = await CreatePedido(obj);
+                        Console.WriteLine(message.Body);
+                        _log.LogInformation(message.Body);
 
-                    //chamar confirmar pedido
-                    var pedido = await CreatePedido(obj);
-                    Console.WriteLine(message.Body);
-                    _log.LogInformation(message.Body);
-
-                    await _amazonSQS.DeleteMessageAsync(_queueUrl, message.ReceiptHandle);
-                    _log.LogInformation($"Message deleted");
+                        await _amazonSQS.DeleteMessageAsync(_queueUrl, message.ReceiptHandle);
+                        _log.LogInformation($"Message deleted");
+                    }
+                    catch (Exception ex)
+                    {
+                        _log.LogError(ex, $"Error processing messages for queue {_queueUrl}! Message: {message.Body}");
+                    }
                 }
-            }
-            catch (Exception ex)
-            {
-                _log.LogError(ex, $"Error processing messages for queue {_queueUrl}!");
-            }
-        }
-
-        private Pedido? TratarMessage(string body)
-        {
-            var obj = new Pedido();
-            try
-            {
-                obj = Newtonsoft.Json.JsonConvert.DeserializeObject<Pedido>(body);
-
-                if (string.IsNullOrEmpty(obj.Id))
-                {
-                    _log.LogWarning($"TratarMessage: objeto não tinha id. Body: {body}");
-                    return null;
-                }
-
-                foreach (var item in obj.Produtos)
-                {
-                    item.ProdutoIdOrigem = item.Id;
-                    item.Id = Guid.NewGuid().ToString();
-                }
-
-                obj.Usuario.IdUsuarioOrigem = obj.Usuario.Id;
-                obj.Usuario.Id = Guid.NewGuid().ToString();
-                obj.Pagamento.Id = Guid.NewGuid().ToString();
-
             }
             catch
             {
-                _log.LogError($"TratarMessage: erro ao deserializar json. Body: {body}");
-                return null;
+                _log.LogError($"Erro ao consultar fila: {_queueUrl}");
             }
-
-
-            return obj;
         }
     }
 }
