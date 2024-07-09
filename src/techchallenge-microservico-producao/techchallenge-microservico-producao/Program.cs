@@ -29,6 +29,7 @@ builder.Services.AddLocalStack(builder.Configuration);
 builder.Services.AddAWSServiceLocalStack<IAmazonSQS>();
 builder.Services.AddAWSServiceLocalStack<IAmazonS3>();
 builder.Services.AddTransient<ISQSConfiguration, SQSConfiguration>();
+builder.Services.AddHostedService<SqsListenerService>();
 
 builder.Services.AddControllers();
 
@@ -36,7 +37,7 @@ builder.Services.AddAWSLambdaHosting(LambdaEventSource.HttpApi);
 builder.Services.AddSwaggerGen(opts => opts.EnableAnnotations());
 
 var connectionString = builder.Configuration.GetConnectionString("MyAppCs");
-builder.Services.AddDbContext<EFDbconfig>(options =>
+builder.Services.AddDbContextFactory<EFDbconfig>(options =>
    options.UseSqlServer(connectionString, b => b.MigrationsAssembly("techchallenge-microservico-producao")));
 
 
