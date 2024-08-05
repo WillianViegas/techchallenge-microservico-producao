@@ -63,8 +63,6 @@ namespace Infra.SQS
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-
-
             try
             {
                 if (_useLocalStack)

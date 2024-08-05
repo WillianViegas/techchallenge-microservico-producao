@@ -6,7 +6,6 @@ namespace techchallenge_microservico_pedido.Models
     {
         public string Id { get; set; }
         public int Numero { get; set; }
-       
         public List<Produto> Produtos { get; set; }
         public Usuario Usuario { get; set; }
         public double Total { get; set; }
