@@ -1,6 +1,6 @@
 # techchallenge-microservico-producao
 
-Repositório relacionado a Fase 4 do techChallenge FIAP. Refatoração do projeto de totem em três microsserviços (Pedido, Pagamento e Produção);
+Repositório relacionado a Fase 4 e 5 do techChallenge FIAP. Refatoração do projeto de totem em três microsserviços (Pedido, Pagamento e Produção) + Utilização do Padrão SAGA;
 
 Repositório bloqueado para push na main, é necessário abrir um PullRequest;
 
