@@ -124,7 +124,7 @@ jobs:
           --from-literal=SQSConfig__UseLocalStack=${{ steps.set-configmap-variables.outputs.use_local_stack_sqs }} \
           --from-literal=SQSConfig__CreateTestQueue=${{ steps.set-configmap-variables.outputs.create_test_queue }} \
           --from-literal=SQSConfig__SendTestMessage=${{ steps.set-configmap-variables.outputs.send_test_message }} \
-          --from-literal=ConnectionStrings__MyAppCs=${{ steps.set-configmap-variables.outputs.connection_string }} \
+          --from-literal=ConnectionStrings__Database=${{ steps.set-configmap-variables.outputs.connection_string }} \
           --dry-run=client -o yaml | kubectl apply -f -
 
     - name: Deploy to EKS
