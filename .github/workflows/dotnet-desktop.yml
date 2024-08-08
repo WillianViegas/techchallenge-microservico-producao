@@ -79,7 +79,6 @@ jobs:
         echo "::set-output name=aws_secret_access_key::${{ secrets.AWS_SECRET_ACCESS_KEY }}"
         echo "::set-output name=aws_region::${{ secrets.AWS_REGION }}"
         echo "::set-output name=db_database_name::${{ secrets.DB_DATABASE_NAME }}"
-        echo "::set-output name=db_connection_string::${{ secrets.DB_CONNECTION_STRING }}"
         echo "::set-output name=db_user::${{ secrets.DB_USER }}"
         echo "::set-output name=sa_password::${{ secrets.SA_PASSWORD }}"
         echo "::set-output name=accept_eula::${{ secrets.ACCEPT_EULA }}"
@@ -92,6 +91,7 @@ jobs:
         echo "::set-output name=use_local_stack_sqs::${{ secrets.LOCALSTACK_ACTIVE }}"
         echo "::set-output name=create_test_queue::${{ secrets.LOCALSTACK_ACTIVE }}"
         echo "::set-output name=send_test_message::${{ secrets.LOCALSTACK_ACTIVE }}"
+        echo "::set-output name=connection_string::${{ secrets.DB_CONNECTION_STRING }}"
 
     - name: Setup kubectl
       uses: azure/setup-kubectl@v3
@@ -116,7 +116,6 @@ jobs:
           --from-literal=AWS_DEFAULT_REGION=${{ steps.set-configmap-variables.outputs.aws_region }} \
           --from-literal=DatabaseConfig__User=${{ steps.set-configmap-variables.outputs.db_user }} \
           --from-literal=DatabaseConfig__DatabaseName=${{ steps.set-configmap-variables.outputs.db_database_name }} \
-          --from-literal=ConnectionStrings__MyAppCs=${{ steps.set-configmap-variables.outputs.db_connection_string }} \
           --from-literal=SA_PASSWORD=${{ steps.set-configmap-variables.outputs.sa_password }} \
           --from-literal=ACCEPT_EULA=${{ steps.set-configmap-variables.outputs.accept_eula }} \
           --from-literal=MY_SECRET=${{ steps.set-configmap-variables.outputs.my_secret}} \
