@@ -15,7 +15,7 @@ services:
       DatabaseConfig__ConnectionString: 'Server=127.0.0.1,1433;Database=MyApp;User Id=SA;Password=Teste1234;'
       DatabaseConfig__DatabaseName: 'MyApp'
       DatabaseConfig__User: 'SA'
-      ConnectionStrings__MyAppCs: 'Server=sql-server,1433;Database=MyApp;User Id=SA;Password=Teste1234;TrustServerCertificate=true'
+      ConnectionStrings__MyAppCs: 'Server=sql-ms-producao,1433;Database=MyApp;User Id=SA;Password=Teste1234;TrustServerCertificate=true'
       QueueUrl: ''
       LocalStack__Config__LocalStackHost: 'localstack'
       LocalStack__UseLocalStack: false
@@ -43,9 +43,9 @@ services:
       AWS_DEFAULT_REGION: us-east-1
       SERVICES: sqs, s3
 
-  sql-server:
+  sql-ms-producao:
     image: mcr.microsoft.com/mssql/server:2019-latest
-    container_name: sql-server
+    container_name: sql-ms-producao
     ports:
       - "1433:1433"
     networks:
