@@ -18,6 +18,10 @@ services:
       ConnectionStrings__MyAppCs: 'Server=sql-server,1433;Database=MyApp;User Id=SA;Password=Teste1234;TrustServerCertificate=true'
       QueueUrl: ''
       LocalStack__Config__LocalStackHost: 'localstack'
+      LocalStack__UseLocalStack: false
+      SQSConfig__UseLocalStack: false
+      SQSConfig__CreateTestQueue: false
+      SQSConfig__SendTestMessage: false
       DatabaseConfig__Password: 'Teste1234'
       AWS_ACCESS_KEY_ID: ''
       AWS_SECRET_ACCESS_KEY: ''
