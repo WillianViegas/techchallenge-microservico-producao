@@ -41,7 +41,7 @@ Links para repositórios relacionados:
 - techchallenge-microservico-pedido (Microsserviço de Pedido):
   - https://github.com/WillianViegas/techchallenge-microservico-pedido
 - techchallenge-microservico-pagamento (Microsserviço de Pagamento)
-  - https://github.com/WillianViegas/techchallenge-microservico-patamento
+  - https://github.com/WillianViegas/techchallenge-microservico-pagamento
 - TechChallenge-LanchoneteTotem (Repositório com o projeto que originou os microsserviços e histórico das fases):
   - https://github.com/WillianViegas/TechChallenge-LanchoneteTotem
  
