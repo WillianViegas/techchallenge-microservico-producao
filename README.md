@@ -67,4 +67,23 @@ Lembrando que se você for rodar pelo visual studio fica bem mais simplificado, 
 
 ![image](https://github.com/user-attachments/assets/5c29e590-a38d-4090-8d2a-6e745e583f46)
 
+## Rodando ambiente Kubernetes
+* Possuir kubernetes instalados:
+    https://kubernetes.io/pt-br/docs/setup/
+
+Com o kubernetes instalado corretamente basta ir até a pasta k8s e executar o seguinte comando:
+- `kubectl apply -f .`  (serão executados todos os arquivos da pasta iniciando suas configurações)
+- `kubectl get deploy` (para ver os deploys que subiram, a API e o banco de dados no nosso caso);
+- `kubectl get Pods` (para ver os respectivos pods)
+- `kubectl get Svc` (para ver a configuração dos services dos pods, aqui você consegue pegar a porta ou endpoint para acessar seu container)
+
+ex:
+![image](https://github.com/user-attachments/assets/b336de8e-8774-4025-a8d3-256dc47317f8)
+
+Caso esteja tendo dificuldades para acessar a respectiva porta você pode utilizar esse comando localmente para gerar um acesso em uma porta de sua escolha, basta abrir o cmd e executar:
+`kubectl port-forward deployment/{nomeDeployment} 7003:80 7004:443`
+
+Para finalizar os pods e os deploys você pode executar o seguinte comando:
+`kubectl delete -f .`  (serão deletadas todas as configurações dos arquivos iniciados, finalizando assim os pods)
+
 
