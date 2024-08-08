@@ -43,6 +43,35 @@ builder.Services.AddDbContextFactory<EFDbconfig>(options =>
 
 var app = builder.Build();
 
+app.Use(async (context, next) =>
+{
+    // Content Security Policy (CSP) Header
+    context.Response.Headers.Add("Content-Security-Policy", "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self'; connect-src 'self'; font-src 'self'; object-src 'none'; frame-src 'none';");
+
+    // Anti-clickjacking Header
+    context.Response.Headers.Add("X-Frame-Options", "DENY");
+
+    // Strict-Transport-Security Header
+    context.Response.Headers.Add("Strict-Transport-Security", "max-age=31536000; includeSubDomains");
+
+    // X-Content-Type-Options Header
+    context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
+
+    // Cache-Control Headers
+    context.Response.Headers.Add("Cache-Control", "no-store, no-cache, must-revalidate, post-check=0, pre-check=0");
+    context.Response.Headers.Add("Pragma", "no-cache");
+    context.Response.Headers.Add("Expires", "0");
+
+    // Remove unnecessary headers
+    context.Response.Headers.Remove("X-Powered-By");
+    context.Response.Headers.Remove("Server");
+
+    // Remove Date header
+    context.Response.Headers.Remove("Date");
+
+    await next();
+});
+
 using var scope = app.Services.CreateScope();
 var dbContext = scope.ServiceProvider.GetRequiredService<EFDbconfig>();
 
