@@ -91,6 +91,7 @@ jobs:
         echo "::set-output name=use_local_stack_sqs::${{ secrets.LOCALSTACK_ACTIVE }}"
         echo "::set-output name=create_test_queue::${{ secrets.LOCALSTACK_ACTIVE }}"
         echo "::set-output name=send_test_message::${{ secrets.LOCALSTACK_ACTIVE }}"
+        echo "::set-output name=connection_string::${{ secrets.DB_CONNECTION_STRING }}"
 
     - name: Setup kubectl
       uses: azure/setup-kubectl@v3
@@ -114,7 +115,6 @@ jobs:
           --from-literal=AWS_REGION=${{ steps.set-configmap-variables.outputs.aws_region }} \
           --from-literal=AWS_DEFAULT_REGION=${{ steps.set-configmap-variables.outputs.aws_region }} \
           --from-literal=DatabaseConfig__User=${{ steps.set-configmap-variables.outputs.db_user }} \
-          --from-literal=ConnectionStrings__MyAppCs="x" \
           --from-literal=DatabaseConfig__DatabaseName=${{ steps.set-configmap-variables.outputs.db_database_name }} \
           --from-literal=SA_PASSWORD=${{ steps.set-configmap-variables.outputs.sa_password }} \
           --from-literal=ACCEPT_EULA=${{ steps.set-configmap-variables.outputs.accept_eula }} \
@@ -124,6 +124,7 @@ jobs:
           --from-literal=SQSConfig__UseLocalStack=${{ steps.set-configmap-variables.outputs.use_local_stack_sqs }} \
           --from-literal=SQSConfig__CreateTestQueue=${{ steps.set-configmap-variables.outputs.create_test_queue }} \
           --from-literal=SQSConfig__SendTestMessage=${{ steps.set-configmap-variables.outputs.send_test_message }} \
+          --from-literal=ConnectionStrings__MyAppCs=${{ steps.set-configmap-variables.outputs.connection_string }} \
           --dry-run=client -o yaml | kubectl apply -f -
 
     - name: Deploy to EKS
