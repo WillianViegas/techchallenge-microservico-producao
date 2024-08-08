@@ -114,7 +114,7 @@ jobs:
           --from-literal=AWS_REGION=${{ steps.set-configmap-variables.outputs.aws_region }} \
           --from-literal=AWS_DEFAULT_REGION=${{ steps.set-configmap-variables.outputs.aws_region }} \
           --from-literal=DatabaseConfig__User=${{ steps.set-configmap-variables.outputs.db_user }} \
-          --from-literal=ConnectionStrings__MyAppCs=${{ steps.set-configmap-variables.outputs.db_connection_string }} \
+          --from-literal=DatabaseConfig__DatabaseName=${{ steps.set-configmap-variables.outputs.db_database_name }} \
           --from-literal=SA_PASSWORD=${{ steps.set-configmap-variables.outputs.sa_password }} \
           --from-literal=ACCEPT_EULA=${{ steps.set-configmap-variables.outputs.accept_eula }} \
           --from-literal=MY_SECRET=${{ steps.set-configmap-variables.outputs.my_secret}} \
